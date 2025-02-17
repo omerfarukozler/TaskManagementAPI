@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace TaskManagementAPI.Models
 {
     public class Category
@@ -9,6 +11,7 @@ namespace TaskManagementAPI.Models
         public int Id { get; set; }
         public required string Name { get; set; }
 
+        [JsonIgnore]
         public ICollection<Task> Tasks { get; set; }
     }
 }
