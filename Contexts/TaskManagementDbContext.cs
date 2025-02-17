@@ -10,5 +10,12 @@ public class TaskManagementDbContext : DbContext
         : base(options)
     {
     }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<User>()
+        .Property(t => t.CreatedAtUnix)
+        .HasDefaultValue((int)DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+}
+
 
 }

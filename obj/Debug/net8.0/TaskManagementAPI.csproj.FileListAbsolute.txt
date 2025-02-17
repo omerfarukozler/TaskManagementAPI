@@ -102,3 +102,4 @@
 /Users/mac1/Documents/Projeler/TaskManagementAPI/obj/Debug/net8.0/TaskManagementAPI.pdb
 /Users/mac1/Documents/Projeler/TaskManagementAPI/obj/Debug/net8.0/TaskManagementAPI.genruntimeconfig.cache
 /Users/mac1/Documents/Projeler/TaskManagementAPI/obj/Debug/net8.0/ref/TaskManagementAPI.dll
+/Users/mac1/Documents/Projeler/TaskManagementAPI/obj/Debug/net8.0/TaskManagementAPI.sourcelink.json
