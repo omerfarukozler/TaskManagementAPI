@@ -103,3 +103,11 @@
 /Users/mac1/Documents/Projeler/TaskManagementAPI/obj/Debug/net8.0/TaskManagementAPI.genruntimeconfig.cache
 /Users/mac1/Documents/Projeler/TaskManagementAPI/obj/Debug/net8.0/ref/TaskManagementAPI.dll
 /Users/mac1/Documents/Projeler/TaskManagementAPI/obj/Debug/net8.0/TaskManagementAPI.sourcelink.json
+/Users/mac1/Documents/Projeler/TaskManagementAPI/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/mac1/Documents/Projeler/TaskManagementAPI/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/mac1/Documents/Projeler/TaskManagementAPI/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/mac1/Documents/Projeler/TaskManagementAPI/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+/Users/mac1/Documents/Projeler/TaskManagementAPI/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
+/Users/mac1/Documents/Projeler/TaskManagementAPI/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/mac1/Documents/Projeler/TaskManagementAPI/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/Users/mac1/Documents/Projeler/TaskManagementAPI/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
