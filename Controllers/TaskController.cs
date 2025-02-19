@@ -2,13 +2,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskManagementAPI.Models;
+using System.Security.Claims;
 
 namespace TaskManagementAPI.Controllers
 {
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class TaskController : ControllerBase
+    public class TaskController : BaseController
     {
         private readonly TaskManagementDbContext _context;
 
@@ -17,9 +18,25 @@ namespace TaskManagementAPI.Controllers
             _context = context;
         }
 
+
         [HttpGet("{taskId}")]
         public async Task<IActionResult> GetUserTasks(int taskId)
         {
+            var taskOwner = await _context.Tasks
+            .Where(t => t.Id == taskId)
+            .Select(t => t.UserId)
+            .FirstOrDefaultAsync();
+
+            if (taskOwner == 0)
+            {
+                return NotFound("Görev bulunamadı.");
+            }
+
+            if (CurrentUserId != taskOwner)
+            {
+                return Forbid();
+            }
+
             var tasks = await _context.Tasks
                 .Where(t => t.Id == taskId)
                 .Select(t => new
@@ -41,6 +58,10 @@ namespace TaskManagementAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTask([FromBody] TaskDTO taskDto)
         {
+            if (CurrentUserId != taskDto.UserId)
+            {
+                return Forbid();
+            }
             if (taskDto == null)
             {
                 return BadRequest(new { Message = "Görev Bilgileri Eksik Girildi." });
@@ -79,6 +100,11 @@ namespace TaskManagementAPI.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateTask([FromBody] TaskDTO taskDto)
         {
+            if (CurrentUserId != taskDto.UserId)
+            {
+                return Forbid();
+            }
+
             if (taskDto == null)
             {
                 return BadRequest("Görev bilgileri eksik.");
@@ -114,6 +140,17 @@ namespace TaskManagementAPI.Controllers
         [HttpDelete("{taskId}")]
         public async Task<IActionResult> DeleteTask(int taskId)
         {
+
+            var taskOwner = await _context.Tasks
+            .Where(t => t.Id == taskId)
+            .Select(t=>t.UserId)
+            .FirstOrDefaultAsync();
+
+            if(CurrentUserId != taskOwner) 
+            {
+                return Forbid();
+            }
+
             var task = await _context.Tasks.FindAsync(taskId);
 
             if (task == null)
