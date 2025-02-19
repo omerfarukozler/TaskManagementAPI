@@ -27,9 +27,9 @@ namespace TaskManagementAPI.Controllers
                     t.Id,
                     t.Title,
                     t.Content,
-                    t.Status,
-                    User = t.User != null 
-                            ? new {t.User.Id , t.User.Name}
+                    Status = ((TaskDTO.StatusMessage)t.Status).ToString(),
+                    User = t.User != null
+                            ? new { t.User.Id, t.User.Name }
                             : null,
                     Categories = t.Categories.Select(c => new { c.Id, c.Name }).ToList()
                 })
@@ -43,12 +43,12 @@ namespace TaskManagementAPI.Controllers
         {
             if (taskDto == null)
             {
-                return BadRequest(new { Message = "Görev Bilgileri Eksik Girildi."});
+                return BadRequest(new { Message = "Görev Bilgileri Eksik Girildi." });
 
             }
 
             var existingCategories = await _context.Categories.Where(c => taskDto.Categories.Contains(c.Id)).ToListAsync();
-            if(existingCategories.Count != taskDto.Categories.Count)
+            if (existingCategories.Count != taskDto.Categories.Count)
             {
                 return BadRequest(new { Message = "Geçersiz kategori ID'leri verildi." });
             }
@@ -58,7 +58,7 @@ namespace TaskManagementAPI.Controllers
                 UserId = taskDto.UserId,
                 Title = taskDto.Title,
                 Content = taskDto.Content,
-                Status = taskDto.Status,
+                Status = (int)taskDto.Status,
                 Categories = existingCategories
             };
 
@@ -71,7 +71,7 @@ namespace TaskManagementAPI.Controllers
                 task.UserId,
                 task.Title,
                 task.Content,
-                task.Status,
+                Status = ((TaskDTO.StatusMessage)task.Status).ToString(),
                 Categories = task.Categories.Select(c => new { c.Id, c.Name }).ToList()
             });
         }
@@ -95,7 +95,7 @@ namespace TaskManagementAPI.Controllers
 
             task.Title = taskDto.Title;
             task.Content = taskDto.Content;
-            task.Status = taskDto.Status;
+            task.Status = (int)taskDto.Status;
             task.Categories = await _context.Categories.Where(c => taskDto.Categories.Contains(c.Id)).ToListAsync();
 
             await _context.SaveChangesAsync();
@@ -106,7 +106,7 @@ namespace TaskManagementAPI.Controllers
                 task.UserId,
                 task.Title,
                 task.Content,
-                task.Status,
+                Status = ((TaskDTO.StatusMessage)task.Status).ToString(),
                 Categories = task.Categories.Select(c => new { c.Id, c.Name }).ToList()
             });
         }

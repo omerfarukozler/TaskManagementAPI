@@ -80,7 +80,7 @@ namespace TaskManagementAPI.Controllers
                     t.Id,
                     t.Title,
                     t.Content,
-                    t.Status
+                    Status = ((TaskDTO.StatusMessage)t.Status).ToString(),
                 })
             });
         }

@@ -16,5 +16,6 @@ namespace TaskManagementAPI.Models
         public User? User { get; set; }
 
         public ICollection<Category> Categories { get; set; }
+
     }
 }
