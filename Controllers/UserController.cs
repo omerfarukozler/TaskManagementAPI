@@ -7,7 +7,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace TaskManagementAPI.Controllers
 {
@@ -64,7 +63,7 @@ namespace TaskManagementAPI.Controllers
 
         [Authorize]
         [HttpGet("{userId}")]
-        public async Task<IActionResult> GetUserById(int userId)
+        public async Task<IActionResult> GetUserById(int userId, bool? isCompleted = null)
         {
             if (CurrentUserId != userId)
             {
@@ -80,21 +79,40 @@ namespace TaskManagementAPI.Controllers
                 return NotFound();
             }
 
+            // Görevleri filtreleme
+            var tasksQuery = user.Tasks.AsQueryable();
+
+            if (isCompleted.HasValue)
+            {
+                if (isCompleted.Value)
+                {
+                    // Tamamlandı olanları getir
+                    tasksQuery = tasksQuery.Where(t => t.Status == (int)TaskDTO.StatusMessage.Tamamlandi);
+                }
+                else
+                {
+                    // Tamamlanmamış olanları getir (Beklemede, Devam Ediyor, Reddedildi)
+                    tasksQuery = tasksQuery.Where(t => t.Status != (int)TaskDTO.StatusMessage.Tamamlandi);
+                }
+            }
+
+            var tasks = tasksQuery.Select(t => new
+            {
+                t.Id,
+                t.Title,
+                t.Content,
+                Status = ((TaskDTO.StatusMessage)t.Status).ToString(),
+            }).ToList();
+
             return Ok(new
             {
                 Id = user.Id,
                 Name = user.Name,
                 CreatedAt = user.CreatedAtUnix,
-                Tasks = user.Tasks.Select(t => new
-                {
-                    t.Id,
-                    t.Title,
-                    t.Content,
-                    Status = ((TaskDTO.StatusMessage)t.Status).ToString(),
-                })
+                Tasks = tasks
             });
         }
-
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] UserDTO userDto)
         {
