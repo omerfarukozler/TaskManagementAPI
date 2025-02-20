@@ -23,7 +23,7 @@ namespace TaskManagementAPI.Controllers
             _context = context;
             _configuration = configuration;
         }
-
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserLoginDTO userLogin)
         {
@@ -95,7 +95,6 @@ namespace TaskManagementAPI.Controllers
             });
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] UserDTO userDto)
         {
