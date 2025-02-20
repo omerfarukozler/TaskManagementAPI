@@ -79,19 +79,16 @@ namespace TaskManagementAPI.Controllers
                 return NotFound();
             }
 
-            // Görevleri filtreleme
             var tasksQuery = user.Tasks.AsQueryable();
 
             if (isCompleted.HasValue)
             {
                 if (isCompleted.Value)
                 {
-                    // Tamamlandı olanları getir
                     tasksQuery = tasksQuery.Where(t => t.Status == (int)TaskDTO.StatusMessage.Tamamlandi);
                 }
                 else
                 {
-                    // Tamamlanmamış olanları getir (Beklemede, Devam Ediyor, Reddedildi)
                     tasksQuery = tasksQuery.Where(t => t.Status != (int)TaskDTO.StatusMessage.Tamamlandi);
                 }
             }
